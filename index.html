@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nutritional Awareness for All Drive</title>
+  <style>
+    :root{
+      --bg:#f5faf6;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#5b6472;
+      --primary:#2f7d32;
+      --primary-2:#dff3e1;
+      --accent:#f59e0b;
+      --line:#e5e7eb;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background: linear-gradient(180deg, #f7fbf8 0%, #ffffff 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1100px, calc(100% - 32px)); margin:0 auto;}
+    header{
+      position:sticky; top:0; z-index:20;
+      background:rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(229,231,235,0.9);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:16px;
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700;}
+    .logo{
+      width:42px; height:42px; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, #9ae6b4, var(--primary));
+      display:grid; place-items:center; color:white; box-shadow:var(--shadow);
+      font-size:20px;
+    }
+    .nav-links{display:flex; gap:18px; flex-wrap:wrap; color:var(--muted); font-size:14px;}
+    .nav-links a:hover{color:var(--primary)}
+
+    .hero{padding:48px 0 28px;}
+    .hero-grid{display:grid; grid-template-columns: 1.2fr 0.8fr; gap:24px; align-items:stretch;}
+    .hero-card, .panel, .section-card, .calc-card{
+      background:var(--card); border:1px solid var(--line);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+    }
+    .hero-card{padding:30px; position:relative; overflow:hidden;}
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      background:var(--primary-2); color:var(--primary);
+      padding:8px 12px; border-radius:999px; font-size:13px; font-weight:700;
+      margin-bottom:14px;
+    }
+    h1{margin:0 0 14px; font-size:40px; line-height:1.06;}
+    .lead{font-size:17px; line-height:1.7; color:var(--muted); max-width:64ch;}
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px; border-radius:12px; font-weight:700; font-size:14px;
+      border:1px solid transparent;
+    }
+    .btn.primary{background:var(--primary); color:white;}
+    .btn.secondary{background:#fff; color:var(--primary); border-color: #bfe4c1;}
+    .hero-art{padding:22px; display:grid; gap:16px;}
+    .art-top, .art-bottom{
+      background:linear-gradient(180deg, #ffffff, #f0faf1);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+    }
+    .stat-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px;}
+    .stat{background:white; border:1px solid var(--line); border-radius:14px; padding:14px;}
+    .stat strong{display:block; font-size:20px; margin-bottom:4px; color:var(--primary)}
+    .stat span{font-size:13px; color:var(--muted)}
+
+    section{padding:18px 0;}
+    .section-card{padding:24px;}
+    .section-title{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;}
+    .section-title h2{margin:0; font-size:26px;}
+    .section-title p{margin:0; color:var(--muted);}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+    .info-box{background:#fbfdfb; border:1px solid var(--line); border-radius:16px; padding:18px;}
+    .info-box h3{margin:0 0 10px; font-size:18px;}
+    .info-box p, .info-box li{color:var(--muted); line-height:1.7;}
+    .info-box ul{margin:0; padding-left:18px;}
+
+    .calc-wrap{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+    .calc-card{padding:20px;}
+    .calc-card h3{margin:0 0 10px; font-size:20px;}
+    .calc-card label{display:block; font-size:13px; font-weight:700; margin:12px 0 6px; color:#374151;}
+    .calc-card input, .calc-card select{
+      width:100%; padding:12px 12px; border:1px solid #d1d5db; border-radius:12px;
+      font-size:14px; outline:none; background:white;
+    }
+    .calc-card input:focus, .calc-card select:focus{border-color:var(--primary); box-shadow:0 0 0 3px rgba(47,125,50,0.10)}
+    .calc-card button{
+      margin-top:14px; width:100%; border:0; border-radius:12px; padding:12px 14px;
+      background:var(--primary); color:white; font-weight:700; font-size:14px; cursor:pointer;
+    }
+    .result{
+      margin-top:14px; padding:14px; border-radius:14px; background:#f8fbf8; border:1px solid #d8ebda;
+      color:#14532d; line-height:1.65; min-height:62px;
+    }
+    .table-wrap{overflow:auto;}
+    table{width:100%; border-collapse:collapse; min-width:720px;}
+    th, td{padding:12px 14px; border-bottom:1px solid var(--line); text-align:left;}
+    th{background:#f8fafc; font-size:14px;}
+    td{color:var(--muted);}
+    .timeline{display:grid; gap:12px;}
+    .step{display:flex; gap:14px; align-items:flex-start; background:#fbfdfb; border:1px solid var(--line); border-radius:16px; padding:16px;}
+    .step-num{width:36px; height:36px; border-radius:50%; background:var(--primary); color:white; display:grid; place-items:center; font-weight:800; flex:0 0 auto;}
+    footer{padding:28px 0 40px; color:var(--muted); text-align:center; font-size:14px;}
+    .mini-note{font-size:13px; color:var(--muted);}
+    .team-name{font-size:20px; font-weight:700; color:var(--text); margin:0;}
+    @media (max-width: 900px){
+      .hero-grid, .grid-2, .grid-3, .calc-wrap{grid-template-columns:1fr;}
+      h1{font-size:34px;}
+      .nav{flex-direction:column; align-items:flex-start;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">🥗</div>
+        <div>
+          <div>Nutritional Awareness</div>
+          <div class="mini-note">Community Services Project</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#team">Team</a>
+        <a href="#about">About</a>
+        <a href="#nutrition">Nutrition</a>
+        <a href="#calculators">Calculators</a>
+        <a href="#method">Method</a>
+        <a href="#results">Outcomes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="badge">🌿 Healthy living through better food choices</div>
+          <h1>Nutritional Awareness for All Drive</h1>
+          <p class="lead">
+            This website is a simple presentation of our community services project on nutrition.
+            It explains the importance of a balanced diet, the role of nutrients, the problem of malnutrition,
+            and practical ways to build healthier eating habits in everyday life.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#calculators">Try Calculators</a>
+            <a class="btn secondary" href="#about">Read Project Summary</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="art-top">
+            <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1000&auto=format&fit=crop" alt="healthy food" style="width:100%; border-radius:16px; display:block;">
+          </div>
+          <div class="art-bottom">
+            <div style="font-weight:700; margin-bottom:10px; color:var(--primary)">Quick Project Snapshot</div>
+            <div class="stat-grid">
+              <div class="stat"><strong>3</strong><span>Students in group</span></div>
+              <div class="stat"><strong>1</strong><span>Awareness drive</span></div>
+              <div class="stat"><strong>6+</strong><span>Main topics covered</span></div>
+              <div class="stat"><strong>3</strong><span>Project calculators</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Project Team</h2>
+            <p>Group members</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="info-box" style="text-align:center">
+            <p class="team-name">Soham Gujrathi</p>
+          </div>
+          <div class="info-box" style="text-align:center">
+            <p class="team-name">Ayush Vitkar</p>
+          </div>
+          <div class="info-box" style="text-align:center">
+            <p class="team-name">Yash Bawane</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Project Introduction</h2>
+            <p>A short summary of the report content.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="info-box">
+            <h3>Why this project matters</h3>
+            <p>
+              Nutrition is essential for growth, energy, concentration, immunity, and overall health.
+              Many people understand that food is important, but they do not always understand how to choose
+              the right foods in the right amount. Our project was created to spread awareness about healthy
+              eating habits and to encourage people to make better food choices.
+            </p>
+          </div>
+          <div class="info-box">
+            <h3>What the project covers</h3>
+            <p>
+              The report explains the meaning of nutrition, the importance of balanced diets, the functions of
+              carbohydrates, proteins, fats, vitamins, minerals, water, and fibre. It also discusses malnutrition,
+              deficiency diseases, project objectives, activities, observations, and outcomes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="nutrition">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Nutrition Basics</h2>
+            <p>Core information from the report in a simple format.</p>
+          </div>
+        </div>
+        <div class="grid-3">
+          <div class="info-box">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=800&auto=format&fit=crop" alt="balanced diet" style="width:100%; border-radius:10px; margin-bottom:10px; display:block;">
+            <h3>Balanced Diet</h3>
+            <p>
+              A balanced diet contains all essential nutrients in proper proportions. It includes a variety of foods
+              from different food groups so that the body receives energy, growth support, and protection against diseases.
+            </p>
+          </div>
+          <div class="info-box">
+            <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=800&auto=format&fit=crop" alt="malnutrition" style="width:100%; border-radius:10px; margin-bottom:10px; display:block;">
+            <h3>Malnutrition</h3>
+            <p>
+              Malnutrition happens when the body does not get the right amount of nutrients. It may happen because of
+              poor food choices, lack of food, excessive junk food, or a diet that is not balanced.
+            </p>
+          </div>
+          <div class="info-box">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800&auto=format&fit=crop" alt="deficiency disease" style="width:100%; border-radius:10px; margin-bottom:10px; display:block;">
+            <h3>Deficiency Diseases</h3>
+            <p>
+              Lack of nutrients can cause diseases such as anaemia, rickets, scurvy, and night blindness.
+              These illnesses show why fresh, varied, and nutritious food is necessary every day.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculators">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Health Calculators</h2>
+            <p>Useful mini-tools related to the project.</p>
+          </div>
+        </div>
+        <div class="calc-wrap">
+          <div class="calc-card">
+            <h3>BMI Calculator</h3>
+            <label for="bmiHeight">Height (cm)</label>
+            <input id="bmiHeight" type="number" placeholder="e.g. 170" min="1" />
+            <label for="bmiWeight">Weight (kg)</label>
+            <input id="bmiWeight" type="number" placeholder="e.g. 60" min="1" />
+            <button onclick="calculateBMI()">Calculate BMI</button>
+            <div class="result" id="bmiResult">Enter height and weight to find BMI.</div>
+          </div>
+
+          <div class="calc-card">
+            <h3>Daily Water Intake</h3>
+            <label for="waterWeight">Weight (kg)</label>
+            <input id="waterWeight" type="number" placeholder="e.g. 60" min="1" />
+            <button onclick="calculateWater()">Calculate Water Need</button>
+            <div class="result" id="waterResult">A simple estimate based on body weight.</div>
+          </div>
+
+          <div class="calc-card">
+            <h3>Healthy Plate Guide</h3>
+            <label for="mealType">Choose meal type</label>
+            <select id="mealType">
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snack">Healthy Snack</option>
+            </select>
+            <button onclick="showMealGuide()">Show Meal Guide</button>
+            <div class="result" id="mealResult">Choose a meal type to see a healthy suggestion.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="method">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Project Methodology</h2>
+            <p>How the awareness drive was carried out.</p>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="step"><div class="step-num">1</div><div><strong>Information collection</strong><div class="mini-note">We collected information from textbooks, teacher guidance, and trusted educational sources to build the content of the report.</div></div></div>
+          <div class="step"><div class="step-num">2</div><div><strong>Planning and preparation</strong><div class="mini-note">We organized the topic into sections such as nutrition, balanced diet, malnutrition, and project outcomes.</div></div></div>
+          <div class="step"><div class="step-num">3</div><div><strong>Awareness activity</strong><div class="mini-note">We prepared simple messages, discussed healthy food habits, and shared the importance of nutrition with classmates and others.</div></div></div>
+          <div class="step"><div class="step-num">4</div><div><strong>Observation and conclusion</strong><div class="mini-note">We noted common food habits, identified areas where awareness was needed, and concluded with practical suggestions for healthier eating.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Observations and Outcomes</h2>
+            <p>What we learned from the project.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="info-box">
+            <h3>Observations</h3>
+            <ul>
+              <li>Many students skip breakfast or eat very little in the morning.</li>
+              <li>Junk food is often preferred because it is easy to buy and tastes good.</li>
+              <li>People know healthy food is important, but they do not always follow healthy habits.</li>
+              <li>Simple awareness messages can improve understanding quickly.</li>
+            </ul>
+          </div>
+          <div class="info-box">
+            <h3>Outcomes</h3>
+            <ul>
+              <li>We learned how nutrition affects health, growth, and learning.</li>
+              <li>Our group improved teamwork, communication, and presentation skills.</li>
+              <li>The project encouraged healthier thinking about everyday food choices.</li>
+              <li>It showed that awareness activities can create positive change in the community.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>Conclusion</h2>
+            <p>Final message of the website.</p>
+          </div>
+        </div>
+        <div class="info-box">
+          <p>
+            The Nutritional Awareness for All Drive taught us that health begins with food. A balanced diet,
+            enough water, proper meal timing, and regular awareness can improve life in a simple but powerful way.
+            By understanding the role of nutrients and making smarter food choices, people can protect themselves
+            from illness and live more active, healthy, and productive lives. The project was a meaningful learning
+            experience and a reminder that small habits can create a big impact on health.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-card">
+        <div class="section-title">
+          <div>
+            <h2>References</h2>
+            <p>Use these in your report or website footer.</p>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Use</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>School health and nutrition textbook</td><td>Basic concepts, nutrient functions, and balanced diet information</td></tr>
+              <tr><td>Teacher notes</td><td>Project structure and presentation guidance</td></tr>
+              <tr><td>Trusted educational nutrition resources</td><td>General understanding of nutrition and healthy habits</td></tr>
+              <tr><td>Government health awareness materials</td><td>Public health and nutrition awareness ideas</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made for the Community Services project on Nutrition. Eat Healthy, Stay Healthy.
+  </footer>
+
+  <script>
+    function calculateBMI(){
+      const h = parseFloat(document.getElementById('bmiHeight').value);
+      const w = parseFloat(document.getElementById('bmiWeight').value);
+      const out = document.getElementById('bmiResult');
+      if(!h || !w || h <= 0 || w <= 0){
+        out.textContent = 'Please enter valid height and weight.';
+        return;
+      }
+      const bmi = w / Math.pow(h/100, 2);
+      let category = '';
+      if(bmi < 18.5) category = 'Underweight';
+      else if(bmi < 25) category = 'Normal';
+      else if(bmi < 30) category = 'Overweight';
+      else category = 'Obese';
+      out.innerHTML = `BMI: <strong>${bmi.toFixed(1)}</strong><br>Status: <strong>${category}</strong><br><span class="mini-note">This is a simple estimate, not medical advice.</span>`;
+    }
+
+    function calculateWater(){
+      const w = parseFloat(document.getElementById('waterWeight').value);
+      const out = document.getElementById('waterResult');
+      if(!w || w <= 0){
+        out.textContent = 'Please enter a valid weight.';
+        return;
+      }
+      const liters = (w * 35) / 1000;
+      out.innerHTML = `Estimated water need: <strong>${liters.toFixed(1)} litres/day</strong><br><span class="mini-note">A common healthy estimate is about 35 ml per kg body weight.</span>`;
+    }
+
+    function showMealGuide(){
+      const meal = document.getElementById('mealType').value;
+      const out = document.getElementById('mealResult');
+      const guides = {
+        breakfast: 'Try fruit + milk/curd + eggs or sprouts + whole grain bread/poha/oats.',
+        lunch: 'Include rice/chapati + dal/beans + vegetables + salad + curd.',
+        dinner: 'Keep it light: chapati or rice + vegetables + protein source + water.',
+        snack: 'Choose fruits, nuts, roasted chana, sprouts, or homemade sandwich.'
+      };
+      out.innerHTML = `<strong>${meal.charAt(0).toUpperCase() + meal.slice(1)} guide:</strong><br>${guides[meal]}`;
+    }
+  </script>
+</body>
+</html>
