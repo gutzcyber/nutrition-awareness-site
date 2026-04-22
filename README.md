@@ -15,7 +15,7 @@ The aim of this project is to educate people about balanced diets, essential nut
 - Clean and user-friendly website design
 
 ## 🌐 Live Website
-(After GitHub Pages setup, paste your link here)
+https://gutzcyber.github.io/nutrition-awareness-site/
 
 ## 👨‍💻 Project Team
 - Soham Gujrathi  
